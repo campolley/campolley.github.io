@@ -1,1 +1,29 @@
-<!doctype html><html><body><h1>Hello world</h1></body></html>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Charts</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+</head>
+<body>
+  <h1>Example chart</h1>
+  <div id="chart"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <script>
+    const RAW = "https://raw.githubusercontent.com/USER/REPO/BRANCH/data/example.csv";
+    const spec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "data": { "url": RAW },
+      "mark": "line",
+      "encoding": {
+        "x": {"field": "date", "type": "temporal"},
+        "y": {"field": "value", "type": "quantitative"}
+      }
+    };
+    vegaEmbed("#chart", spec);
+  </script>
+</body>
+</html>
