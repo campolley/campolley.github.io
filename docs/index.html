@@ -38,6 +38,11 @@
       box-shadow: 0 8px 32px 0 #cbd5e1;
       padding: 32px 24px;
     }
+    /* Ensure the chart div has width for Vega to size into */
+    #chart {
+      width: 100%;
+      min-height: 380px;
+    }
     footer {
       text-align: center;
       color: #64748b;
@@ -68,7 +73,8 @@
     const spec = {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
       "description": "A fancy sample line chart.",
-      "width": "container",
+      /* Use autosize fit so the chart adapts to the parent container */
+      "autosize": {"type": "fit", "contains": "padding"},
       "height": 380,
       "data": {
         "values": [
