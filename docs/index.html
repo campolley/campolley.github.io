@@ -8,7 +8,7 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: linear-gradient(135deg, #f8fafc 0%, #dbeafe 100%);
+      background: linear-gradient(135deg, #d2dbe4 0%, #dbeafe 100%);
     }
     #chart { max-width: 900px; margin: 48px auto; }
   </style>
@@ -21,17 +21,11 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
   <script>
-    // Put your CSV at: /data/example.csv (in the repo root create a folder named "data")
-    // CSV headers: date,value
-    // Example rows:
-    // 2025-08-01,10
-    // 2025-08-02,14
-    // 2025-08-03,9
 
     const spec = {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
       "data": {
-        "url": "data/example.csv",
+        "url": "https://campolley.github.io/data/example.csv",
         "format": {"type":"csv"}
       },
       "width": "container",
