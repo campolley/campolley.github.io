@@ -25,8 +25,11 @@
     const spec = {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
       "data": {
-        "url": "https://campolley.github.io/data/example.csv",
-        "format": {"type":"csv"}
+        "values": [
+          {"date":"2025-08-01","value":10},
+          {"date":"2025-08-02","value":14},
+          {"date":"2025-08-03","value":9}
+        ]
       },
       "width": "container",
       "height": 420,
