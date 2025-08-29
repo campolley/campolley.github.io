@@ -1,48 +1,106 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Charts</title>
+  <title>Fancy Homepage with Chart</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: linear-gradient(135deg, #d2dbe4 0%, #dbeafe 100%);
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #dbeafe 100%);
+      min-height: 100vh;
+      color: #1e293b;
     }
-    #chart { max-width: 900px; margin: 48px auto; }
+    header {
+      text-align: center;
+      padding: 48px 0 24px 0;
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 2px 12px 0 #cbd5e1;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin: 0 0 12px 0;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+    p {
+      font-size: 1.25rem;
+      margin: 0;
+      color: #334155;
+    }
+    #chart-container {
+      max-width: 900px;
+      margin: 48px auto;
+      background: rgba(255,255,255,0.85);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px 0 #cbd5e1;
+      padding: 32px 24px;
+    }
+    footer {
+      text-align: center;
+      color: #64748b;
+      font-size: 1rem;
+      margin: 48px 0 16px 0;
+    }
+    @media (max-width: 600px) {
+      #chart-container { padding: 12px 2px; }
+      h1 { font-size: 2rem; }
+    }
   </style>
 </head>
 <body>
-  <h1 style="text-align:center;margin-top:24px;color:#1e293b;">Fancy Line Chart</h1>
-  <div id="chart"></div>
-
+  <header>
+    <h1>Welcome to the Fancy Homepage</h1>
+    <p>Interactive Data Visualization Example</p>
+  </header>
+  <div id="chart-container">
+    <div id="chart"></div>
+  </div>
+  <footer>
+    &copy; 2025 Fancy Homepage Example
+  </footer>
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
   <script>
-
     const spec = {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "A fancy sample line chart.",
+      "width": "container",
+      "height": 380,
       "data": {
         "values": [
-          {"date":"2025-08-01","value":10},
-          {"date":"2025-08-02","value":14},
-          {"date":"2025-08-03","value":9}
+          {"date": "2025-08-01", "value": 10},
+          {"date": "2025-08-02", "value": 14},
+          {"date": "2025-08-03", "value": 9},
+          {"date": "2025-08-04", "value": 17},
+          {"date": "2025-08-05", "value": 13}
         ]
       },
-      "width": "container",
-      "height": 420,
       "encoding": {
         "x": {
           "field": "date",
           "type": "temporal",
-          "axis": {"title": "Date", "labelAngle": -30, "grid": false, "labelColor": "#334155", "titleColor": "#334155"}
+          "axis": {
+            "title": "Date",
+            "labelAngle": -30,
+            "grid": false,
+            "labelColor": "#334155",
+            "titleColor": "#334155"
+          }
         },
         "y": {
           "field": "value",
           "type": "quantitative",
-          "axis": {"title": "Value", "gridColor": "#cbd5e1", "gridDash": [2,2], "labelColor": "#334155", "titleColor": "#334155"}
+          "axis": {
+            "title": "Value",
+            "gridColor": "#cbd5e1",
+            "gridDash": [2,2],
+            "labelColor": "#334155",
+            "titleColor": "#334155"
+          }
         },
         "tooltip": [
           {"field": "date", "type": "temporal", "title": "Date"},
@@ -51,18 +109,38 @@
       },
       "layer": [
         {
-          "mark": {"type": "line", "interpolate": "monotone", "strokeWidth": 3, "opacity": 0.9}
+          "mark": {
+            "type": "line",
+            "interpolate": "monotone",
+            "strokeWidth": 4,
+            "color": "#2563eb",
+            "opacity": 0.92
+          }
         },
         {
-          "mark": {"type": "point", "filled": true, "size": 80, "strokeWidth": 1.5}
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 100,
+            "color": "#f59e42",
+            "stroke": "#1e293b",
+            "strokeWidth": 2
+          }
         }
       ],
+      "title": {
+        "text": "Sample Trend Over Time",
+        "subtitle": "Smooth line, points, and tooltips",
+        "fontSize": 22,
+        "subtitleFontSize": 14,
+        "color": "#1e293b",
+        "anchor": "start"
+      },
       "config": {
         "view": {"stroke": "transparent"},
         "axis": {"domainColor": "#64748b", "tickColor": "#64748b"}
       }
     };
-
     vegaEmbed("#chart", spec, {actions: false});
   </script>
 </body>
