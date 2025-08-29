@@ -4,109 +4,68 @@
   <meta charset="utf-8" />
   <title>Charts</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: linear-gradient(135deg, #f8fafc 0%, #dbeafe 100%);
+    }
+    #chart { max-width: 900px; margin: 48px auto; }
+  </style>
 </head>
 <body>
-  <h1>Chart Header</h1>
+  <h1 style="text-align:center;margin-top:24px;color:#1e293b;">Fancy Line Chart</h1>
   <div id="chart"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
   <script>
-    const RAW = "https://raw.githubusercontent.com/campolley/campolley.github.io/main/data/example.csv";
+    // Put your CSV at: /data/example.csv (in the repo root create a folder named "data")
+    // CSV headers: date,value
+    // Example rows:
+    // 2025-08-01,10
+    // 2025-08-02,14
+    // 2025-08-03,9
+
     const spec = {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "background": {
-        "expr": "'linear-gradient(135deg, #f8fafc 0%, #dbeafe 100%)'"
+      "data": {
+        "url": "data/example.csv",
+        "format": {"type":"csv"}
       },
-      "title": {
-        "text": "Fancy Line Chart",
-        "subtitle": "With smooth lines, points, and interactive tooltips",
-        "fontSize": 24,
-        "subtitleFontSize": 14,
-        "color": "#1e293b",
-        "anchor": "start"
-      },
-      "data": { 
-        "url": RAW,
-        "format": {
-          "type": "csv"
-        },
-        "formatParse": {
-          "date": "date:%Y-%m-%d",
-          "value": "number"
-        }
-      },
-      "mark": [
-        {
-          "type": "line",
-          "interpolate": "monotone",
-          "color": "#2563eb",
-          "strokeWidth": 4,
-          "strokeDash": [2,0],
-          "tooltip": true,
-          "strokeOpacity": 0.9
-        },
-        {
-          "type": "point",
-          "filled": true,
-          "color": "#f59e42",
-          "size": 80,
-          "stroke": "#1e293b",
-          "strokeWidth": 2,
-          "tooltip": true
-        }
-      ],
+      "width": "container",
+      "height": 420,
       "encoding": {
         "x": {
           "field": "date",
           "type": "temporal",
-          "axis": {
-            "title": "Date",
-            "labelAngle": -30,
-            "grid": false,
-            "titleFontSize": 16,
-            "labelFontSize": 13,
-            "labelColor": "#334155"
-          }
+          "axis": {"title": "Date", "labelAngle": -30, "grid": false, "labelColor": "#334155", "titleColor": "#334155"}
         },
         "y": {
           "field": "value",
           "type": "quantitative",
-          "axis": {
-            "title": "Value",
-            "titleFontSize": 16,
-            "labelFontSize": 13,
-            "labelColor": "#334155",
-            "gridColor": "#cbd5e1",
-            "gridDash": [2,2]
-          }
+          "axis": {"title": "Value", "gridColor": "#cbd5e1", "gridDash": [2,2], "labelColor": "#334155", "titleColor": "#334155"}
         },
         "tooltip": [
           {"field": "date", "type": "temporal", "title": "Date"},
           {"field": "value", "type": "quantitative", "title": "Value"}
         ]
       },
-      "config": {
-        "view": {
-          "stroke": "transparent",
-          "shadow": {
-            "color": "#64748b",
-            "blur": 12,
-            "offsetX": 0,
-            "offsetY": 4
-          }
+      "layer": [
+        {
+          "mark": {"type": "line", "interpolate": "monotone", "strokeWidth": 3, "opacity": 0.9}
         },
-        "axis": {
-          "domainColor": "#64748b",
-          "tickColor": "#64748b"
-        },
-        "legend": {
-          "labelFontSize": 13,
-          "titleFontSize": 15
+        {
+          "mark": {"type": "point", "filled": true, "size": 80, "strokeWidth": 1.5}
         }
+      ],
+      "config": {
+        "view": {"stroke": "transparent"},
+        "axis": {"domainColor": "#64748b", "tickColor": "#64748b"}
       }
     };
+
     vegaEmbed("#chart", spec, {actions: false});
   </script>
 </body>
