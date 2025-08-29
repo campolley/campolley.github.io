@@ -27,7 +27,16 @@
         "color": "#1e293b",
         "anchor": "start"
       },
-      "data": { "url": RAW },
+      "data": { 
+        "url": RAW,
+        "format": {
+          "type": "csv"
+        },
+        "formatParse": {
+          "date": "date:%Y-%m-%d",
+          "value": "number"
+        }
+      },
       "mark": [
         {
           "type": "line",
