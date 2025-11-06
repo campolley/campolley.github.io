@@ -1,42 +1,21 @@
-# Finance deliverables website template
+# Finance deliverables website
 
-This repository contains a single-page website template designed to impress finance hiring managers. It generates downloadable deliverables client-side: an Excel workbook (.xlsx) and a one-page memo (PDF). No server required.
+This repository hosts a single-page portfolio template that makes it easy for hiring managers to download your deliverables.
 
-Files added/important paths:
+Key points
+- The Excel model is included as a static file in `docs/` (file: `practiceLBO - CAVA.xlsx`). Clicking the "Download Excel" button serves that file directly.
+- The one-page memo PDF is generated client-side using jsPDF and pulls its content from a saved description (if present) or a default memo body.
+- The project previously used SheetJS (xlsx) to generate Excel files in-browser; that dependency has been removed and the Excel file is supplied directly.
 
-- `docs/index.html` — The single-page template.
-- `docs/assets/style.css` — Styles for the page.
-- `docs/assets/script.js` — JavaScript that generates the Excel and PDF files using SheetJS and jsPDF (CDN).
-
-How it works:
-
-- Click “Download Excel” and the page uses SheetJS (xlsx) loaded from CDN to create a small workbook with `Summary`, `Projections`, and `Scenarios` sheets and downloads it.
-- Click “Download Memo” and the page uses jsPDF (loaded from CDN) to create a simple one-page memo populated with the text in the description box.
-
-Customize:
-
-- Edit `docs/assets/script.js` to change sample data or add new sheets.
-- Edit the description on the page — it is saved to localStorage and used in the PDF.
-
-To preview locally:
-
-1. From the workspace root, serve the `docs` folder with a simple HTTP server. For example (macOS):
+Preview locally
 
 ```bash
-# from this repo root
+# Serve the docs folder and open http://localhost:8000
 python3 -m http.server --directory docs 8000
-# then open http://localhost:8000 in your browser
 ```
 
-2. Click the download buttons on the page.
+Customization
+- Replace `docs/practiceLBO - CAVA.xlsx` with your own model (update the filename in `docs/assets/script.js` if you rename it).
+- Edit `docs/assets/script.js` to change the memo header/footer or to embed different behavior for downloads.
 
-Notes:
-
-- This is a template — replace sample numbers and text with your real work. Consider adding charts (SheetJS can create data, charts are best produced in Excel itself) or export PNGs if you want to show visualizations on the page.
-- If you want to generate richer Excel files (formulas, formats, multi-sheet complex models), consider adding the SheetJS Pro or server-side generation.
-# campolley.github.io
-<<<<<<< HEAD
-Website currently displaying an LBO model and accompanying memo that I built to display for job application purposes. Enjoy!
-=======
-Currently displaying an LBO model and memo that I created for job applications
->>>>>>> bcf5318 (Changing up everything)
+If you want me to also remove `jsPDF` and convert the memo to a static PDF file in `docs/`, I can do that next.

@@ -39,53 +39,18 @@
 
   updateMemoPreview();
 
-  // Sample data generator for Excel workbook
-  function buildWorkbook() {
-    const wb = XLSX.utils.book_new();
-
-    // Summary sheet
-    const summary = [
-      ['Metric','Value','Unit'],
-      ['Revenue (Year 1)', 1250000,'USD'],
-      ['Revenue (Year 2)', 1750000,'USD'],
-      ['Revenue (Year 3)', 2300000,'USD'],
-      ['EBITDA Margin', 0.22,'%'],
-      ['Net Income', 320000,'USD']
-    ];
-    const ws1 = XLSX.utils.aoa_to_sheet(summary);
-    XLSX.utils.book_append_sheet(wb, ws1, 'Summary');
-
-    // Projections sheet with sample months and simple growth
-    const headers = ['Year','Revenue','COGS','Expenses','EBITDA'];
-    const projections = [headers];
-    const rev = [1250000,1750000,2300000];
-    for (let i=0;i<3;i++){
-      const cogs = Math.round(rev[i]*0.4);
-      const exp = Math.round(rev[i]*0.2);
-      const ebitda = rev[i]-cogs-exp;
-      projections.push([`Year ${i+1}`,rev[i],cogs,exp,ebitda]);
-    }
-    const ws2 = XLSX.utils.aoa_to_sheet(projections);
-    XLSX.utils.book_append_sheet(wb, ws2, 'Projections');
-
-    // Add a small sensitivity table
-    const sens = [
-      ['Scenario','Revenue growth','EBITDA Margin'],
-      ['Base','15%','22%'],
-      ['Upside','25%','26%'],
-      ['Downside','5%','18%']
-    ];
-    const ws3 = XLSX.utils.aoa_to_sheet(sens);
-    XLSX.utils.book_append_sheet(wb, ws3, 'Scenarios');
-
-    return wb;
-  }
-
-  // Hook download Excel
+  // Download an existing Excel file that lives in the `docs` folder.
+  // Update EXCEL_FILE if you rename the file in the docs directory.
+  const EXCEL_FILE = 'practiceLBO - CAVA.xlsx';
   function downloadExcel() {
-    const wb = buildWorkbook();
-    // Use SheetJS to trigger a download
-    XLSX.writeFile(wb, 'Campolley_Finance_Sample.xlsx');
+    const url = encodeURI(EXCEL_FILE); // relative to the docs root
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = EXCEL_FILE;
+    // For Safari support, open in same tab if download attribute isn't honored
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   }
 
   // Hook download PDF (using jsPDF UMD)
@@ -125,13 +90,9 @@
     doc.save('Campolley_Memo.pdf');
   }
 
-  // Wire buttons (multiple buttons point to same functions for convenience)
-  ['#downloadExcel','#downloadExcel2'].forEach(id => {
-    const el = document.querySelector(id);
-    if (el) el.addEventListener('click', () => {
-      downloadExcel();
-    });
-  });
+  // Wire the download Excel button to serve the static file in `docs/`.
+  const downloadExcelBtn = document.querySelector('#downloadExcel');
+  if (downloadExcelBtn) downloadExcelBtn.addEventListener('click', downloadExcel);
   ['#downloadPdf','#downloadPdf2'].forEach(id => {
     const el = document.querySelector(id);
     if (el) el.addEventListener('click', () => {
