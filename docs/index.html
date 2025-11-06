@@ -1,263 +1,55 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Fancy Homepage with Chart</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg-1:#060819;
-      --bg-2:#07102a;
-      --glass: rgba(255,255,255,0.04);
-      --accent: #6ee7ff;
-      --accent-2: #7c3aed;
-      --muted: #9aa8bd;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:'Inter', system-ui, sans-serif;
-      min-height:100vh;
-      color: #e6eefb;
-      background:
-        radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.08), transparent 8%),
-        radial-gradient(1000px 500px at 95% 90%, rgba(99,102,241,0.06), transparent 10%),
-        linear-gradient(130deg, var(--bg-1) 0%, var(--bg-2) 100%);
-      overflow-x:hidden;
-      position:relative;
-    }
-    /* animated subtle noise shimmer to convey tech polish */
-    @keyframes drift {
-      0%{background-position:0% 0%}
-      50%{background-position:100% 100%}
-      100%{background-position:0% 0%}
-    }
-    body::after{
-      content:"";
-      position:fixed;
-      inset:0;
-      background: linear-gradient(45deg, rgba(110,231,255,0.02), rgba(124,58,237,0.02));
-      mix-blend-mode: screen;
-      pointer-events:none;
-      animation:drift 18s linear infinite;
-    }
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:28px 40px;
-      backdrop-filter: blur(6px) saturate(120%);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-    .brand {
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-    .logo {
-      width:44px;height:44px;border-radius:10px;
-      background: linear-gradient(135deg,var(--accent),var(--accent-2));
-      box-shadow:0 6px 22px rgba(124,58,237,0.24), inset 0 -6px 18px rgba(0,0,0,0.18);
-      display:flex;align-items:center;justify-content:center;font-weight:700;color:#061027;
-      font-family:monospace;
-    }
-    h1{ font-size:1.125rem; margin:0; font-weight:800; letter-spacing: -0.4px; color:#eaf6ff; }
-    p { font-size:0.95rem; margin:0; color:var(--muted); opacity:0.95; }
-    nav { display:flex; gap:12px; align-items:center; color:var(--muted); }
-    .badge { font-size:0.78rem; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.02); color:var(--muted) }
-    /* modern card-style chart container */
-    #chart-container {
-      max-width:1100px;
-      margin:44px auto;
-      border-radius:16px;
-      padding:26px;
-      position:relative;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.04);
-      box-shadow: 0 10px 40px rgba(7,12,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-      backdrop-filter: blur(10px) saturate(120%);
-      transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms;
-      overflow:hidden;
-    }
-    /* subtle animated neon edge */
-    #chart-container::before{
-      content:"";
-      position:absolute; inset:-1px; z-index:0; pointer-events:none;
-      background: linear-gradient(90deg, rgba(110,231,255,0.06), rgba(124,58,237,0.06));
-      filter: blur(18px); opacity:0.9;
-    }
-    #chart-container:hover{ transform: translateY(-10px); box-shadow:0 28px 80px rgba(7,12,30,0.7) }
-    /* Ensure the chart element & any renderer fills the card and avoids clipping */
-    #chart {
-      width:100%;
-      height:520px; /* taller, cinematic display */
-      min-height:360px;
-      display:block;
-      position:relative;
-      z-index:1;
-    }
-    /* make Vega-generated elements fill the #chart box */
-    #chart svg, #chart canvas, #chart iframe {
-      width: 100% !important;
-      height: 100% !important;
-      display: block;
-    }
-    /* refined typography for title area */
-    .hero { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:14px; z-index:2 }
-    .hero .meta { color:var(--muted); font-size:0.95rem }
-    .hero h2 { margin:0; font-size:1.35rem; color:#eaf6ff; font-weight:800 }
-    .hero p { margin:0; color:var(--muted) }
-    footer {
-      text-align: center;
-      color: #64748b;
-      font-size: 1rem;
-      margin: 48px 0 16px 0;
-    }
-    @media (max-width: 900px) {
-      #chart-container { padding: 14px; margin: 24px; }
-      header { padding:18px }
-      .hero { flex-direction:column; align-items:flex-start; gap:8px }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="brand">
-      <div class="logo">FP</div>
-      <div>
-        <h1>Fancy Platform</h1>
-        <p class="muted">Data, design & delight</p>
-      </div>
-    </div>
-    <nav>
-      <div class="badge">Live Demo</div>
-      <div style="opacity:.9;color:var(--muted)">Docs</div>
-    </nav>
-  </header>
-  <div id="chart-container">
-    <div class="hero" style="position:relative;">
-      <div>
-        <h2>Realtime Trend</h2>
-        <p class="meta">Smooth interpolation · interactive tooltips · modern palette</p>
-      </div>
-      <div style="text-align:right;color:var(--muted)"><small>Updated: Aug 2025</small></div>
-    </div>
-    <div id="chart"></div>
-  </div>
-  <footer>
-    &copy; 2025 Fancy Homepage Example
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-  <script>
-    const spec = {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "description": "A modern layered line chart with area and soft points.",
-      "autosize": {"type": "fit-x", "contains": "padding"},
-      "height": 480,
-      "padding": {"left": 64, "right": 28, "top": 28, "bottom": 56},
-      "data": {
-        "values": [
-          {"date": "2025-08-01", "value": 10},
-          {"date": "2025-08-02", "value": 14},
-          {"date": "2025-08-03", "value": 9},
-          {"date": "2025-08-04", "value": 17},
-          {"date": "2025-08-05", "value": 13}
-        ]
-      },
-      "encoding": {
-        "x": {
-          "field": "date",
-          "type": "temporal",
-          "axis": {
-            "title": "Date",
-            "labelAngle": -30,
-            "grid": false,
-            "labelColor": "#c7d8ff",
-            "titleColor": "#c7d8ff",
-            "labelFontSize": 12,
-            "titleFontSize": 13
-          }
-        },
-        "y": {
-          "field": "value",
-          "type": "quantitative",
-          "axis": {
-            "title": "Value",
-            "gridColor": "rgba(124,58,237,0.06)",
-            "gridDash": [2,2],
-            "labelColor": "#c7d8ff",
-            "titleColor": "#c7d8ff",
-            "labelFontSize": 12
-          }
-        },
-        "tooltip": [
-          {"field": "date", "type": "temporal", "title": "Date"},
-          {"field": "value", "type": "quantitative", "title": "Value"}
-        ]
-      },
-      "layer": [
-        /* soft filled area for depth */
-        {
-          "mark": {
-            "type": "area",
-            "interpolate": "monotone",
-            "opacity": 0.12,
-            "color": "#6ee7ff"
-          }
-        },
-        /* main line */
-        {
-          "mark": {
-            "type": "line",
-            "interpolate": "monotone",
-            "strokeWidth": 3.6,
-            "color": "#7c3aed",
-            "opacity": 0.98
-          }
-        },
-        /* subtle outline points */
-        {
-          "mark": {
-            "type": "point",
-            "filled": true,
-            "size": 90,
-            "color": "#e6f9ff",
-            "stroke": "rgba(0,0,0,0.18)",
-            "strokeWidth": 1
-          }
-        }
-      ],
-      "title": {
-        "text": "Sample Trend Over Time",
-        "subtitle": "Smooth line, points, and tooltips",
-        "fontSize": 18,
-        "subtitleFontSize": 12,
-        "color": "#eaf6ff",
-        "anchor": "start"
-      },
-      "config": {
-        "view": {"stroke": "transparent", "fill": "transparent"},
-        "axis": {
-          "domainColor": "rgba(255,255,255,0.04)",
-          "tickColor": "rgba(255,255,255,0.03)",
-          "labelFontSize": 12,
-          "titleFontSize": 13
-        },
-        "legend": {"labelFontSize": 12, "titleFontSize": 13},
-        "range": {"category": ["#7c3aed","#6ee7ff","#ffb020","#ff7ab6"]}
-      }
-    };
-    vegaEmbed("#chart", spec, {actions: false, renderer: "svg", defaultStyle: false})
-      .catch(err => {
-        console.error(err);
-        const c = document.querySelector("#chart");
-        if (c) c.innerHTML = "<div style='padding:18px;color:#7b8794'>Chart failed to load.</div>";
-      });
-  </script>
-</body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Finance Portfolio — Downloadable Samples</title>
+		<meta name="description" content="File deliverable with an Excel LBO and accompanying Memorandum" />
+		<link rel="stylesheet" href="/assets/style.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<header class="site-header">
+			<div class="container header-grid">
+				<div>
+					<h1 class="site-title">Publicly Downloadable Example LBO Model and Memorandum</h1>
+					<p class="site-sub">Camden Polley - Finance & Accounting Student at Emory University</p>
+				</div>
+						<!-- navigation intentionally removed -->
+			</div>
+		</header>
+
+		<main class="container">
+			<section class="hero">
+				<h2>Impress hiring managers with concise, high-quality deliverables</h2>
+				<p class="lead">This template produces an Excel workbook with a financial summary and projections and a professional one-page memo PDF. Use the description box to explain the files for reviewers.</p>
+				<div class="actions-row">
+					<button id="downloadExcel" class="btn primary">Download Excel (.xlsx)</button>
+					<button id="downloadPdf" class="btn outline">Download Memo (PDF)</button>
+				</div>
+			</section>
+
+
+
+					<!-- downloads section removed per user request -->
+
+			<section class="card small">
+				<h3>Contact</h3>
+				<p>To tailor this template to your portfolio (custom graphs, additional sheets, or exported CSVs), edit <code>assets/script.js</code> or reach out.</p>
+			</section>
+		</main>
+
+		<footer class="site-footer">
+			<div class="container">
+				<small>© <span id="year"></span> Finance Portfolio — Built to impress hiring managers.</small>
+			</div>
+		</footer>
+
+		<!-- Libraries used to generate downloads client-side -->
+		<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+		<script src="/assets/script.js"></script>
+	</body>
 </html>
