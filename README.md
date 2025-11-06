@@ -1,2 +1,2 @@
 # campolley.github.io
-Website in process of being built... Visualizing historical returns of financial factor models... Using the creme de la creme of backtesting techniques
+Website currently displaying an LBO model and accompanying memo that I built to display for job application purposes. Enjoy!
