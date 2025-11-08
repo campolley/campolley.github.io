@@ -90,6 +90,18 @@
     doc.save('Campolley_Memo.pdf');
   }
 
+  // Add functionality to download the static PDF file
+  const PDF_FILE = 'CAVA LBO Memo.pdf';
+  function downloadStaticPdf() {
+    const url = encodeURI(PDF_FILE); // relative to the docs root
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = PDF_FILE;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
   // Wire the download Excel button to serve the static file in `docs/`.
   const downloadExcelBtn = document.querySelector('#downloadExcel');
   if (downloadExcelBtn) downloadExcelBtn.addEventListener('click', downloadExcel);
@@ -99,5 +111,7 @@
       downloadPdf();
     });
   });
+  const downloadPdfBtn = document.querySelector('#downloadPdf');
+  if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', downloadStaticPdf);
 
 })();
